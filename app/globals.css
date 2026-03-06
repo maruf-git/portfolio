@@ -116,12 +116,6 @@ body {
 ::view-transition-new(root) {
   z-index: 2;
 }
-.dark::view-transition-old(root) {
-  z-index: 2;
-}
-.dark::view-transition-new(root) {
-  z-index: 1;
-}
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {

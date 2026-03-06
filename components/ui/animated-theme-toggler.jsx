@@ -31,7 +31,16 @@ export const AnimatedThemeToggler = ({
     const isDark = resolvedTheme === "dark"
 
     const applyTheme = () => {
-      setTheme(isDark ? "light" : "dark")
+      const newTheme = isDark ? "light" : "dark"
+      
+      // Force an immediate DOM update to guarantee the view transition captures
+      // exactly the right visual representation of the next frame synchronously.
+      document.documentElement.classList.remove("light", "dark")
+      document.documentElement.classList.add(newTheme)
+      document.documentElement.style.colorScheme = newTheme
+      
+      // Pass the state up to next-themes for React context & localStorage persistence
+      setTheme(newTheme)
     }
 
     if (typeof document.startViewTransition !== "function") {
