@@ -147,7 +147,7 @@ export default function Navbar() {
                 );
               })}
               <Button
-                className="mt-2 w-full bg-primary text-primary-foreground rounded-xl"
+                className="mt-2 w-full h-12 bg-primary text-primary-foreground rounded-xl"
                 onClick={() => handleNavClick("#contact")}
               >
                 Hire Me

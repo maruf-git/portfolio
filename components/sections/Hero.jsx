@@ -129,7 +129,7 @@ export default function Hero() {
             </motion.div> */}
 
             <motion.div variants={itemVariants}>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]">
                 Hi, I&apos;m <br />
                 <span className="gradient-text">Md. Maruf Ur Rahman Munna</span>
               </h1>
@@ -212,7 +212,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="relative order-1 lg:order-2 flex justify-center lg:justify-end"
           >
-            <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-[400px] lg:h-[400px] rounded-full flex-shrink-0">
+            <div className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-[400px] lg:h-[400px] rounded-full flex-shrink-0">
               
               {/* Image Container */}
               <div className="absolute inset-0 rounded-full border-4 border-background overflow-hidden bg-muted shadow-2xl group flex items-center justify-center">

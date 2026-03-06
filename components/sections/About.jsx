@@ -111,7 +111,7 @@ export default function About() {
                 {/* Outer glow ring */}
                 <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-violet-500 via-purple-500 to-cyan-500 blur-md opacity-50" />
                 {/* Avatar box */}
-                <div className="relative w-72 h-72 rounded-3xl bg-gradient-to-br from-violet-900/80 via-card to-cyan-900/40 border border-border flex items-center justify-center overflow-hidden">
+                <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-3xl bg-gradient-to-br from-violet-900/80 via-card to-cyan-900/40 border border-border flex items-center justify-center overflow-hidden">
                   {/* Code block decoration */}
                   <div className="text-center space-y-2 font-mono text-sm p-6">
                     <p className="text-muted-foreground">
