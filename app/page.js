@@ -19,8 +19,8 @@ export default function Home() {
         <About />
         <Timeline />
         <Skills />
-        <Projects />
-        <MobileApps />
+        <Projects limit={6} showSeeMore={true} />
+        {/* <MobileApps /> */}
         {/* <CompetitiveProgramming /> */}
         {/* <Company /> */}
         <Contact />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, Code2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -12,20 +13,28 @@ import { cn } from "@/lib/utils";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const pathname = usePathname();
+  const [activeSection, setActiveSection] = useState(pathname === "/" ? "home" : pathname.replace("/", ""));
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
       // Active section detection
-      const sections = NAV_LINKS.map((l) => l.href.replace("#", ""));
-      for (const section of [...sections].reverse()) {
-        const el = document.getElementById(section);
-        if (el && window.scrollY >= el.offsetTop - 100) {
-          setActiveSection(section);
-          break;
+      if (pathname === "/") {
+        const sections = NAV_LINKS.map((l) => l.href.replace("#", ""));
+        let currentSection = "home";
+        for (const section of [...sections].reverse()) {
+          const el = document.getElementById(section);
+          if (el && window.scrollY >= el.offsetTop - 150) {
+            currentSection = section;
+            break;
+          }
         }
+        setActiveSection(currentSection);
+      } else {
+        setActiveSection(pathname.replace("/", ""));
       }
     };
 
@@ -35,11 +44,35 @@ export default function Navbar() {
 
   const handleNavClick = (href) => {
     setIsOpen(false);
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+
+    // Handle full route links
+    if (href.startsWith("/")) {
+      if (pathname === href) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        router.push(href);
+      }
+      return;
     }
+
+    // Handle hash links when NOT on the home page
+    if (pathname !== "/") {
+      router.push(href === "#home" ? "/" : `/${href}`);
+      return;
+    }
+
+    // Handle hash links when ON the home page
+    const id = href.replace("#", "");
+    
+    // Give time for mobile menu to close before calculating scroll position
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        // Offset for the fixed navbar height
+        const y = el.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }, 100);
   };
 
   return (
@@ -74,8 +107,8 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
-              const sectionId = link.href.replace("#", "");
-              const isActive = activeSection === sectionId;
+              const sectionId = link.href.replace(/[/#]/g, "");
+              const isActive = activeSection === sectionId || (pathname === `/${sectionId}` && link.href.startsWith("/"));
               return (
                 <button
                   key={link.href}
@@ -121,16 +154,16 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden bg-background/95 backdrop-blur-xl border-b border-border"
+            className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border shadow-xl max-h-[calc(100vh-4rem)] overflow-y-auto"
           >
             <nav className="px-4 pt-2 pb-4 flex flex-col gap-1">
               {NAV_LINKS.map((link) => {
-                const sectionId = link.href.replace("#", "");
-                const isActive = activeSection === sectionId;
+                const sectionId = link.href.replace(/[/#]/g, "");
+                const isActive = activeSection === sectionId || (pathname === `/${sectionId}` && link.href.startsWith("/"));
                 return (
                   <button
                     key={link.href}

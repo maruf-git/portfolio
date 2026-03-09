@@ -2,20 +2,20 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { ExternalLink, Github, Star } from "lucide-react";
+import { ExternalLink, Github, Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { STATIC_PROJECTS } from "@/lib/constants";
+import Link from "next/link";
+import Image from "next/image";
 
 const categoryColors = {
-  web: "bg-blue-500/10 text-blue-400 border-blue-500/30",
+  website: "bg-blue-500/10 text-blue-400 border-blue-500/30",
   mobile: "bg-green-500/10 text-green-400 border-green-500/30",
-  backend: "bg-orange-500/10 text-orange-400 border-orange-500/30",
-  fullstack: "bg-violet-500/10 text-violet-400 border-violet-500/30",
 };
 
-const tabs = ["all", "fullstack", "web", "backend", "mobile"];
+const tabs = ["all", "website", "mobile"];
 
 function ProjectCard({ project, index, inView }) {
   return (
@@ -25,36 +25,45 @@ function ProjectCard({ project, index, inView }) {
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="group relative flex flex-col p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all hover:-translate-y-1"
     >
-      {/* Featured badge */}
-      {project.featured && (
-        <div className="absolute top-4 right-4">
-          <span className="inline-flex items-center gap-1 text-xs bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 px-2 py-0.5 rounded-full">
-            <Star className="w-3 h-3 fill-yellow-500" />
-            Featured
-          </span>
-        </div>
-      )}
+      {/* Featured badge - Removed as per instruction */}
 
-      {/* Project image placeholder */}
-      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-violet-900/50 via-card to-cyan-900/30 border border-border mb-4 overflow-hidden flex items-center justify-center">
-        <div className="text-5xl opacity-30 group-hover:opacity-50 transition-opacity">
-          {project.category === "mobile" ? "📱" : project.category === "backend" ? "⚙️" : "🌐"}
-        </div>
+      {/* Project image placeholder or real image */}
+      <div className="relative w-full h-44 rounded-xl bg-gradient-to-br from-violet-900/50 via-card to-cyan-900/30 border border-border mb-4 overflow-hidden flex items-center justify-center group/img">
+        {project.imageUrl ? (
+          <Image
+            src={project.imageUrl}
+            alt={project.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover/img:scale-110"
+          />
+        ) : (
+          <div className="text-5xl opacity-30 group-hover/img:opacity-50 transition-opacity">
+            {project.category === "mobile" ? "📱" : "🌐"}
+          </div>
+        )}
         {/* Shimmer on hover */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 shimmer transition-opacity rounded-xl" />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 shimmer transition-opacity rounded-xl pointer-events-none" />
       </div>
 
       {/* Meta */}
-      <div className="flex items-start justify-between gap-2 mb-2">
+      <div className="flex items-start justify-between gap-2 mb-1.5">
         <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
           {project.title}
         </h3>
         <span
-          className={`shrink-0 text-xs border px-2 py-0.5 rounded-full ${categoryColors[project.category] || categoryColors.fullstack}`}
+          className={`shrink-0 text-xs border px-2 py-0.5 rounded-full ${categoryColors[project.category] || categoryColors.website}`}
         >
           {project.category}
         </span>
       </div>
+
+      {project.tag && (
+        <div className="flex flex-wrap gap-1.5 mb-2.5">
+          <span className="text-[10px] uppercase font-bold tracking-wider text-primary border border-primary/30 bg-primary/10 px-2 py-0.5 rounded-md">
+            {project.tag}
+          </span>
+        </div>
+      )}
 
       <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">
         {project.description}
@@ -62,7 +71,7 @@ function ProjectCard({ project, index, inView }) {
 
       {/* Tech Stack */}
       <div className="flex flex-wrap gap-1.5 mb-4">
-        {project.techStack.slice(0, 4).map((tech) => (
+        {project.techStack.map((tech) => (
           <span
             key={tech}
             className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-md font-medium"
@@ -70,11 +79,6 @@ function ProjectCard({ project, index, inView }) {
             {tech}
           </span>
         ))}
-        {project.techStack.length > 4 && (
-          <span className="text-xs text-muted-foreground px-2 py-0.5">
-            +{project.techStack.length - 4} more
-          </span>
-        )}
       </div>
 
       {/* Links */}
@@ -87,7 +91,7 @@ function ProjectCard({ project, index, inView }) {
             </a>
           </Button>
         )}
-        {project.githubUrl && (
+        {project.githubUrl && project.githubUrl !== "#" && (
           <Button size="sm" variant="outline" className="flex-1 rounded-xl" asChild>
             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
               <Github className="w-3.5 h-3.5 mr-1.5" />
@@ -100,7 +104,7 @@ function ProjectCard({ project, index, inView }) {
   );
 }
 
-export default function Projects() {
+export default function Projects({ limit, showSeeMore = false }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [activeTab, setActiveTab] = useState("all");
@@ -186,9 +190,20 @@ export default function Projects() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((project, i) => (
+              {projects.slice(0, limit || projects.length).map((project, i) => (
                 <ProjectCard key={project._id} project={project} index={i} inView={inView} />
               ))}
+            </div>
+          )}
+
+          {showSeeMore && (
+            <div className="mt-12 text-center">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lg shadow-primary/25">
+                <Link href="/projects">
+                  See More Projects
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
             </div>
           )}
 

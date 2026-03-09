@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Mail, MapPin, Send, Github, Linkedin, ExternalLink } from "lucide-react";
+import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE, SOCIAL_LINKS } from "@/lib/constants";
 import { toast } from "sonner";
@@ -22,6 +22,13 @@ const contactInfo = [
     value: SITE.email,
     href: `mailto:${SITE.email}`,
     color: "text-violet-500 bg-violet-500/10",
+  },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: SITE.whatsapp,
+    href: `https://wa.me/${SITE.whatsapp.replace(/[^0-9]/g, "")}`,
+    color: "text-green-500 bg-green-500/10",
   },
   {
     icon: MapPin,
@@ -123,7 +130,12 @@ export default function Contact() {
                           {item.label}
                         </p>
                         {item.href ? (
-                          <a href={item.href} className="font-medium hover:text-primary transition-colors">
+                          <a 
+                            href={item.href} 
+                            target={item.href.startsWith("http") ? "_blank" : undefined}
+                            rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                            className="font-medium hover:text-primary transition-colors"
+                          >
                             {item.value}
                           </a>
                         ) : (
