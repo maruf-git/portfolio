@@ -44,7 +44,7 @@ export default function Footer() {
                       const el = document.getElementById(item.toLowerCase());
                       el?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="text-muted-foreground hover:text-primary text-sm transition-colors"
+                    className="text-muted-foreground hover:text-primary text-sm transition-colors hover:cursor-pointer"
                   >
                     {item}
                   </button>
@@ -65,7 +65,7 @@ export default function Footer() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm transition-colors group"
+                      className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm transition-colors group hover:cursor-pointer"
                     >
                       <Icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
                       <span>{link.label}</span>

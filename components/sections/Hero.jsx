@@ -249,12 +249,12 @@ export default function Hero() {
         >
           <motion.button
             onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-            className="text-muted-foreground hover:text-primary transition-colors flex flex-col items-center gap-2"
+            className="text-muted-foreground hover:text-primary transition-colors flex flex-col items-center gap-2 hover:cursor-pointer"
             animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           >
-            <span className="text-[10px] tracking-[0.2em] uppercase font-semibold">Scroll</span>
-            <ArrowDown className="w-4 h-4" />
+            <span className="text-[10px] tracking-[0.2em] uppercase font-semibold ">Scroll</span>
+            <ArrowDown className="w-4 h-4 " />
           </motion.button>
         </motion.div>
 

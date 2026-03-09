@@ -228,7 +228,7 @@ export default function Contact() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 group"
+                  className="w-full rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 group hover:cursor-pointer"
                   size="lg"
                 >
                   {loading ? "Sending..." : "Send Message"}

@@ -172,7 +172,7 @@ export default function Projects({ limit, showSeeMore = false }) {
                   <TabsTrigger
                     key={tab}
                     value={tab}
-                    className="capitalize rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                    className="capitalize rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:cursor-pointer"
                   >
                     {tab}
                   </TabsTrigger>

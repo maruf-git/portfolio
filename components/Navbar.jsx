@@ -114,7 +114,7 @@ export default function Navbar() {
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
                   className={cn(
-                    "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+                    "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:cursor-pointer",
                     isActive
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -128,10 +128,10 @@ export default function Navbar() {
 
           {/* Right Side */}
           <div className="flex items-center gap-2">
-            <AnimatedThemeToggler />
+            <AnimatedThemeToggler className="hover:cursor-pointer" />
             <Button
               size="sm"
-              className="hidden md:flex bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-5 shadow-lg shadow-primary/25"
+              className="hidden md:flex bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-5 shadow-lg shadow-primary/25c hover:cursor-pointer"
               onClick={() => handleNavClick("#contact")}
             >
               Hire Me
@@ -180,7 +180,7 @@ export default function Navbar() {
                 );
               })}
               <Button
-                className="mt-2 w-full h-12 bg-primary text-primary-foreground rounded-xl"
+                className="mt-2 w-full h-12 bg-primary text-primary-foreground rounded-xl hover:cursor-pointer"
                 onClick={() => handleNavClick("#contact")}
               >
                 Hire Me
