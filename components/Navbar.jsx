@@ -91,7 +91,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link
-            href="#home"
+            href="/"
             onClick={() => handleNavClick("#home")}
             className="flex items-center gap-2 group"
           >

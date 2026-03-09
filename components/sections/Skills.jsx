@@ -135,10 +135,25 @@ export default function Skills() {
                     />
                   </div>
                 </div>
-                <div className="space-y-1">
+                   <div className="space-y-1">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-foreground font-medium">Mobile Development</span>
+                    <span className="text-primary font-semibold">80%</span>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-violet-500 to-cyan-500 rounded-full"
+                      initial={{ width: 0 }}
+                      animate={inView ? { width: "80%" } : {}}
+                      transition={{ duration: 1, delay: 0.9 }}
+                    />
+                  </div>
+                </div>
+              </div>
+                {/* <div className="space-y-1">
                   <div className="flex justify-between text-sm">
                     <span className="text-foreground font-medium">Competitive Programming</span>
-                    <span className="text-primary font-semibold">75%</span>
+                    <span className="text-primary font-semibold">60%</span>
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden">
                     <motion.div
@@ -149,21 +164,7 @@ export default function Skills() {
                     />
                   </div>
                 </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-foreground font-medium">Mobile Development</span>
-                    <span className="text-primary font-semibold">70%</span>
-                  </div>
-                  <div className="h-2 bg-muted rounded-full overflow-hidden">
-                    <motion.div
-                      className="h-full bg-gradient-to-r from-violet-500 to-cyan-500 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={inView ? { width: "70%" } : {}}
-                      transition={{ duration: 1, delay: 0.9 }}
-                    />
-                  </div>
-                </div>
-              </div>
+              */}
             </motion.div>
           </div>
         </motion.div>
