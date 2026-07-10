@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Download, ExternalLink, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { STATIC_APPS } from "@/lib/constants";
+import { STATIC_PROJECTS } from "@/lib/constants";
 
 export default function MobileApps() {
   const ref = useRef(null);
@@ -34,7 +34,7 @@ export default function MobileApps() {
 
           {/* Apps Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {STATIC_APPS.map((app, i) => (
+            {STATIC_PROJECTS.filter(p => p.category === "mobile").map((app, i) => (
               <motion.div
                 key={app._id}
                 initial={{ opacity: 0, y: 30 }}
