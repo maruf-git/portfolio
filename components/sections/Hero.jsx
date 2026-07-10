@@ -35,16 +35,15 @@ const roles = [
 ];
 
 function Typewriter() {
-  const [displayed, setDisplayed] = useState("");
-  const [phase, setPhase] = useState("typing"); // typing | pausing | deleting | waiting
+  const spanRef = useRef(null);
   const indexRef = useRef(0);
   const charRef = useRef(0);
+  const phaseRef = useRef("typing"); // typing | pausing | deleting | waiting
 
   useEffect(() => {
     let raf;
     let lastTime = 0;
 
-    // Speed config (ms per step)
     const TYPING_SPEED  = 58;
     const DELETE_SPEED  = 28;
     const PAUSE_AFTER   = 1800;
@@ -53,54 +52,58 @@ function Typewriter() {
     const tick = (now) => {
       const word = roles[indexRef.current];
 
-      if (phase === "typing") {
+      if (phaseRef.current === "typing") {
         if (now - lastTime < TYPING_SPEED) { raf = requestAnimationFrame(tick); return; }
         lastTime = now;
         charRef.current = Math.min(charRef.current + 1, word.length);
-        setDisplayed(word.slice(0, charRef.current));
+        if (spanRef.current) spanRef.current.textContent = word.slice(0, charRef.current);
         if (charRef.current >= word.length) {
-          setPhase("pausing");
+          phaseRef.current = "pausing";
         }
         raf = requestAnimationFrame(tick);
       }
-      else if (phase === "pausing") {
+      else if (phaseRef.current === "pausing") {
         if (now - lastTime < PAUSE_AFTER) { raf = requestAnimationFrame(tick); return; }
         lastTime = now;
-        setPhase("deleting");
+        phaseRef.current = "deleting";
         raf = requestAnimationFrame(tick);
       }
-      else if (phase === "deleting") {
+      else if (phaseRef.current === "deleting") {
         if (now - lastTime < DELETE_SPEED) { raf = requestAnimationFrame(tick); return; }
         lastTime = now;
         charRef.current = Math.max(charRef.current - 1, 0);
-        setDisplayed(word.slice(0, charRef.current));
+        if (spanRef.current) spanRef.current.textContent = word.slice(0, charRef.current);
         if (charRef.current <= 0) {
-          setPhase("waiting");
+          phaseRef.current = "waiting";
         }
         raf = requestAnimationFrame(tick);
       }
-      else if (phase === "waiting") {
+      else if (phaseRef.current === "waiting") {
         if (now - lastTime < WAIT_BETWEEN) { raf = requestAnimationFrame(tick); return; }
         lastTime = now;
         indexRef.current = (indexRef.current + 1) % roles.length;
         charRef.current = 0;
-        setDisplayed("");
-        setPhase("typing");
+        if (spanRef.current) spanRef.current.textContent = "";
+        phaseRef.current = "typing";
         raf = requestAnimationFrame(tick);
       }
     };
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [phase]);
+  }, []);
 
   return (
     <span className="inline-flex items-baseline gap-px">
+      {/* 
+        Using a data-placeholder ensures the span retains height when empty 
+        without needing a non-breaking space that might mess up selection.
+      */}
       <span
-        className="gradient-text font-bold"
+        ref={spanRef}
+        className="gradient-text font-bold empty:after:content-['\200b']"
         style={{ minWidth: "1ch" }}
       >
-        {displayed || "\u00A0"}
       </span>
       <span
         className="text-blue-400 font-bold animate-blink"
@@ -140,11 +143,19 @@ export default function Hero() {
       {/* ── Ambient blue blobs ── */}
       <div
         className="absolute -top-48 -left-32 w-[700px] h-[700px] rounded-full blur-[130px] opacity-[0.07] dark:opacity-[0.11] pointer-events-none"
-        style={{ background: "radial-gradient(circle, #3B82F6, #1D4ED8)" }}
+        style={{ 
+          background: "radial-gradient(circle, #3B82F6, #1D4ED8)",
+          transform: "translateZ(0)", 
+          willChange: "transform" 
+        }}
       />
       <div
         className="absolute bottom-[-80px] right-[-60px] w-[550px] h-[550px] rounded-full blur-[110px] opacity-[0.05] dark:opacity-[0.08] pointer-events-none"
-        style={{ background: "radial-gradient(circle, #60A5FA, #3B82F6)" }}
+        style={{ 
+          background: "radial-gradient(circle, #60A5FA, #3B82F6)",
+          transform: "translateZ(0)", 
+          willChange: "transform" 
+        }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
