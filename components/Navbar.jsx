@@ -56,7 +56,10 @@ export default function Navbar() {
     setTimeout(() => {
       const el = document.getElementById(id);
       if (el) {
-        const y = el.getBoundingClientRect().top + window.scrollY - 80;
+        // Sections already have 6rem (96px) of padding. 
+        // Scrolling exactly to the element means the 64px navbar covers part of the padding,
+        // leaving a nice tight margin above the content.
+        const y = el.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({ top: y, behavior: "smooth" });
       }
     }, 100);

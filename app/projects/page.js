@@ -11,8 +11,12 @@ export default function ProjectsPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-20 min-h-screen">
-        <Projects />
+      <main className="min-h-screen pb-10">
+        {/* We use negative margin to offset the default section-padding of the component, 
+            so it aligns exactly like the home page Hero section. */}
+        <div className="pt-20 -mt-[6rem]">
+          <Projects />
+        </div>
       </main>
       <Footer />
     </>
