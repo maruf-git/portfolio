@@ -2,6 +2,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Projects from "@/components/sections/Projects";
 
+export const revalidate = 604800; // 1 week cache
+export const dynamicParams = false;
+
 export const metadata = {
   title: "Projects | Md. Maruf Ur Rahman Munna",
   description: "Explore all my web, mobile, and backend projects.",

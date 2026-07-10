@@ -1,21 +1,30 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
-import Projects from "@/components/sections/Projects";
-import MobileApps from "@/components/sections/MobileApps";
-import CompetitiveProgramming from "@/components/sections/CompetitiveProgramming";
-import Timeline from "@/components/sections/Timeline";
-import Company from "@/components/sections/Company";
-import Contact from "@/components/sections/Contact";
+import dynamic from "next/dynamic";
+
+// Force static caching on Vercel CDN (revalidate once a week)
+export const revalidate = 604800;
+export const dynamicParams = false;
+
+// Lazy load below-the-fold components to reduce initial JS bundle size
+const About = dynamic(() => import("@/components/sections/About"), { ssr: true });
+const Timeline = dynamic(() => import("@/components/sections/Timeline"), { ssr: true });
+const Skills = dynamic(() => import("@/components/sections/Skills"), { ssr: true });
+const Projects = dynamic(() => import("@/components/sections/Projects"), { ssr: true });
+// const MobileApps = dynamic(() => import("@/components/sections/MobileApps"));
+// const CompetitiveProgramming = dynamic(() => import("@/components/sections/CompetitiveProgramming"));
+// const Company = dynamic(() => import("@/components/sections/Company"));
+// const Contact = dynamic(() => import("@/components/sections/Contact"));
 
 export default function Home() {
   return (
     <>
       <Navbar />
       <main>
+        {/* Hero loads immediately for LCP */}
         <Hero />
+        {/* Heavy animation components load asynchronously */}
         <About />
         <Timeline />
         <Skills />
@@ -23,7 +32,7 @@ export default function Home() {
         {/* <MobileApps /> */}
         {/* <CompetitiveProgramming /> */}
         {/* <Company /> */}
-        <Contact />
+        {/* <Contact /> */}
       </main>
       <Footer />
     </>
