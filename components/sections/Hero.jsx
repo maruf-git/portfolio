@@ -253,8 +253,8 @@ export default function Hero() {
                 <ArrowRight className="w-4 h-4" />
               </button>
               <a
-                href="/Maruf_Resume.pdf"
-                download
+                href="/md%20maruf%20ur%20rahman%20munna%20resume.pdf"
+                download="md maruf ur rahman munna resume.pdf"
                 className="btn-glass flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm"
               >
                 <Download className="w-4 h-4" />

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { NAV_LINKS } from "@/lib/constants";
@@ -141,16 +141,17 @@ export default function Navbar() {
           <div className="flex items-center gap-2.5">
             <AnimatedThemeToggler className="hover:cursor-pointer" />
 
-            {/* Hire Me CTA */}
-            <button
-              onClick={() => handleNavClick("#contact")}
+            {/* Resume CTA — downloads the PDF directly */}
+            <a
+              href="/md%20maruf%20ur%20rahman%20munna%20resume.pdf"
+              download="md maruf ur rahman munna resume.pdf"
               className="hidden md:flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold btn-gradient hover:cursor-pointer relative overflow-hidden"
             >
               <span className="relative z-10 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-white/80 animate-pulse-dot" />
-                Hire Me
+                <Download className="w-3.5 h-3.5" />
+                Resume
               </span>
-            </button>
+            </a>
 
             {/* Mobile Toggle */}
             <button
@@ -209,15 +210,18 @@ export default function Navbar() {
                   </motion.button>
                 );
               })}
-              <motion.button
+              <motion.a
+                href="/md%20maruf%20ur%20rahman%20munna%20resume.pdf"
+                download="md maruf ur rahman munna resume.pdf"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: NAV_LINKS.length * 0.05 }}
-                className="mt-3 w-full h-12 rounded-xl text-sm font-semibold btn-gradient hover:cursor-pointer"
-                onClick={() => handleNavClick("#contact")}
+                className="mt-3 w-full h-12 rounded-xl text-sm font-semibold btn-gradient hover:cursor-pointer flex items-center justify-center gap-2"
+                onClick={() => setIsOpen(false)}
               >
-                Hire Me
-              </motion.button>
+                <Download className="w-4 h-4" />
+                Resume
+              </motion.a>
             </nav>
           </motion.div>
         )}
